@@ -16,8 +16,8 @@ function viz(data){
   // selecciona la división donde se inyectará el SVG
   var svg = d3.select('#viz')
     .append('svg') // agrega un elemento SVG
-    .attr('width', 800) // al SVG le agrega el atributo ancho de 400px
-    .attr('height', 1200) // al SVG le agrega el atributo alto de 200px
+    .attr('width', 400) // al SVG le agrega el atributo ancho de 400px
+    .attr('height', 200) // al SVG le agrega el atributo alto de 200px
 
   var elem = svg.selectAll('g') // selecciona todos los elementos `g` (grupos)
     .data(data) // enlaza los datos del servidor
@@ -25,31 +25,29 @@ function viz(data){
   var elemEnter = elem.enter()
       .append('g') // agrega un grupo
       .attr('transform', function(d,i){ // aplica una transformación al elemento
-        return "translate(100, "+(80*i+100)+")" // calcula la posción relativo a
+        return "translate("+(80*i+40)+", 80)" // calcula la posción relativo a
                                               // los datos
       })
 
   var circulo = elemEnter.append('circle') // agrega un circulo
-    .attr('stroke', 'none') // la línea de contorno será negra
+    .attr('stroke', 'black') // la línea de contorno será negra
     .attr('fill', function(d){ // el color de relleno se aplica según el
                                // resultado de esta función
       if(d.public){     // si el elemento actual es público
-        return 'blue'  // el color de relleno será verde
+        return 'green'  // el color de relleno será verde
       } else {          // de lo contrario (será público)
         return 'red'    // el color de relleno será rojo
       }
     })
 
     .attr('r', function(d){ // el radio dependerá de la cantidad de items en la
-      return d.items.count * 2 // colección
+      return d.items.count * 10 // colección
     })
 
   // crea los textos etiquetando cada uno de los círculos
   var txt = elemEnter.append('text') //agrega un elemento de tipo text
     .attr('dy', -35) // la posición en y
     .attr('dx', -20) // la posición en x
-    .attr('fill', 'red')
-    .attr('style', 'font-size: 1rem;')
     .text(function(d){ // extrae el texto de la información del servidor
       return d.element_texts[0].text
     })
@@ -63,11 +61,11 @@ var request = new XMLHttpRequest();
 // servidor proxy para souclionar problemas de CORS (ver README)
 var CORS_PROXY = 'http://192.169.250.12:8088/';
 // usa el proxy?
-var use_cors = true;
+var use_cors = false;
 //la URL del API (http://miomeka.org/api)
-var baseUrl = 'http://192.169.250.12/~sandbox/omk/api'
+var baseUrl = ''
 // el key generado por omeka
-var API_KEY = '20c49a2ee950699fb2e7d3243addec540c824927'
+var API_KEY = ''
 
 // comstruye la URL final a partir de los datos suministrados anteriormente
 var URL = '' // variable donde se guardará la URL final
@@ -80,7 +78,7 @@ if (use_cors){
 } else {
   // concatena todas las variables
   // http://miomeka.org/api/collections?key=API_KEY
-  URL = baseUrl+'/collection?key='+API_KEY
+  URL = baseUrl+'/collections?key='+API_KEY
 }
 
 // 2. abre una conexión al servidor usando el método GET
