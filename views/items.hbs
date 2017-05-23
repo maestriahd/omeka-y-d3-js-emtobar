@@ -1,4 +1,4 @@
-<h1>D3</h1>
+<h1>Items con D3</h1>
 
 <!-- div donde se inyectará la visualizción de D3js -->
 <div id="viz"></div>
@@ -13,11 +13,12 @@
 
 // Función encargadad de la visualización de datos por medio de D3
 function viz(data){
+  console.log(data);
   // selecciona la división donde se inyectará el SVG
   var svg = d3.select('#viz')
     .append('svg') // agrega un elemento SVG
     .attr('width', 800) // al SVG le agrega el atributo ancho de 400px
-    .attr('height', 1200) // al SVG le agrega el atributo alto de 200px
+    .attr('height', 3200) // al SVG le agrega el atributo alto de 200px
 
   var elem = svg.selectAll('g') // selecciona todos los elementos `g` (grupos)
     .data(data) // enlaza los datos del servidor
@@ -25,36 +26,29 @@ function viz(data){
   var elemEnter = elem.enter()
       .append('g') // agrega un grupo
       .attr('transform', function(d,i){ // aplica una transformación al elemento
-        return "translate(100, "+(80*i+100)+")" // calcula la posción relativo a
+        return "translate(50, "+(100*i+10)+")" // calcula la posción relativo a
                                               // los datos
       })
+      var rect = elemEnter.append('rect')
+      .attr('x','10')
+      .attr('y','10')
+      .attr('fill', 'red')
+      .attr('width', '50')
+      .attr('height', '50')
+      .attr('stroke', '50')
 
-  var circulo = elemEnter.append('circle') // agrega un circulo
-    .attr('stroke', 'none') // la línea de contorno será negra
-    .attr('fill', function(d){ // el color de relleno se aplica según el
-                               // resultado de esta función
-      if(d.public){     // si el elemento actual es público
-        return 'blue'  // el color de relleno será verde
-      } else {          // de lo contrario (será público)
-        return 'red'    // el color de relleno será rojo
-      }
-    })
-
-    .attr('r', function(d){ // el radio dependerá de la cantidad de items en la
-      return d.items.count * 2 // colección
-    })
-
-  // crea los textos etiquetando cada uno de los círculos
-  var txt = elemEnter.append('text') //agrega un elemento de tipo text
-    .attr('dy', -35) // la posición en y
-    .attr('dx', -20) // la posición en x
-    .attr('fill', 'red')
-    .attr('style', 'font-size: 1rem;')
-    .text(function(d){ // extrae el texto de la información del servidor
-      return d.element_texts[0].text
-    })
+      var txt = elemEnter.append('text')
+       .text(function (d){
+         var tags = d.tags
+         var taglist = ''
+         tags.forEach(function (tag){
+           taglist = tag.name + ', '
+         })
+         return taglist
+       })
 
 }
+
 
 // Rutina para hacer la petición al servidor de Omeka
 // 1. crea una nueva instancia de XMLHttpRequest
@@ -75,14 +69,13 @@ var URL = '' // variable donde se guardará la URL final
 if (use_cors){
   // concatena todas las variables
   // http://192.169.250.12:8088/http://miomeka.org/api/collections?key=API_KEY
-  URL = CORS_PROXY+baseUrl+'/collections?key='+API_KEY
+  URL = CORS_PROXY+baseUrl+'/items?key='+API_KEY
 // si no usa el proxy
 } else {
   // concatena todas las variables
   // http://miomeka.org/api/collections?key=API_KEY
-  URL = baseUrl+'/collection?key='+API_KEY
+  URL = baseUrl+'/items?key='+API_KEY
 }
-
 // 2. abre una conexión al servidor usando el método GET
 // la URL debe estar construida así:
 request.open('GET', URL, true);

@@ -4,11 +4,11 @@ var router = express.Router();
 var request = require('request');
 var async = require('async');
 
-const API_KEY = '';  // constante para guardar el API key del omeka
+const API_KEY = '20c49a2ee950699fb2e7d3243addec540c824927';  // constante para guardar el API key del omeka
 
 // objeto que guarda la configuración de la conexion al Omeka
 var server = {
-  baseUrl: '', // la URL del API (http://miomeka.org/api)
+  baseUrl: 'http://192.169.250.12/~sandbox/omk/api', // la URL del API (http://miomeka.org/api)
   uri: '',
   method: 'GET', // método que vamos a usar
   qs: {
@@ -48,7 +48,7 @@ router.get('/', function(req, res) {
     // La función recibe lo entregado en el anterior paso en el primer parámetro
     // `item`
     function(item, items, callback) {
-      console.log('peticion a /collections');
+      console.log('peticion a /collection');
       // actualiza la dirección del recurso a consultar en el objeto de
       // configuración de request
       server.uri = '/collections/'+item.collection.id;
