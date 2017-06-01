@@ -44,11 +44,11 @@ Para la actividad de esta semana hay dos formas de enfrentarse a este problema, 
 
 |  Criterio  | %      |  Calificación |
 |----------|:-------------:|------:|
-| Redacción, ortografía, citación de fuentes |  40% | 1.0 |
-| Suficiencia en la implementación técnica D3.js |    60%   | 1.0 |
-| ** Nota Final** | | 1.0|
+| Redacción, ortografía, citación de fuentes |  40% | 4.0 |
+| Suficiencia en la implementación técnica D3.js |    60%   | 3.5 |
+| ** Nota Final** | | 3.7|
 
-Actividad no realizada.
+
 
 ## Recursos
 
